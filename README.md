@@ -40,3 +40,22 @@ Initialize app in _app.js_. Add enviromental variables to config.env. When copyi
 # Step 4
 
 Connect database and add morgan for logging.
+
+# Step 5
+
+### Template Engines & Layouts
+
+We have a layout that wraps around everything.  
+Layout has html and body tags and stuff we dont want to repeat in different views.  
+So basically it wraps around these views.  
+Copy code snippet from [here](https://www.npmjs.com/package/express-handlebars)
+
+> `app.engine('.hbs', exphbs({defaultLayout: 'main', extname: '.hbs'}));`  
+> `app.set('view engine', '.hbs');`
+
+Add _views_ folder and _layouts_ folder  
+To create layout add file called **main.hbs** and for login **login.hbs** inside _layouts_ folder
+
+Use `{{{body}}}` to output a view
+
+# Step 6
