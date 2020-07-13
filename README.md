@@ -4,7 +4,7 @@
 
 ## Install dependencies
 
-`npm i express mongoose connect-mongo express-session express-handlebars dotenv method-override moment morgan passport passport-google-oauth20`
+`npm i express mongoose connect-mongo express-session express-handlebars dotenv method-override moment morgan passport passport-google-oauth20 colors`
 
 express - web framework to create routes etc  
 mongoose - to work with our database, create models  
@@ -17,6 +17,7 @@ moment - used to format dates
 morgan - for logging
 passport - for authentication
 passport-google-oauth20 - for google auth
+colors - for node terminal color
 
 dev dependencies
 
@@ -35,3 +36,7 @@ add start and dev script to _package.json_ .
 # Step 3
 
 Initialize app in _app.js_. Add enviromental variables to config.env. When copying MONGO_URI replace <dbname> with the name you want for database. It gets created automatically.
+
+# Step 4
+
+Connect database and add morgan for logging.
