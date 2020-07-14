@@ -84,4 +84,16 @@ Create and use static folder to be able to include public files - like our own *
 
 We need to create a folder what is going to be static folder  
 In **app.js** define which folder is going to be static  
-Create _public_ folder, inside _css_ folder and into that **style.css** file. Include **style.css** in **main.hbs** using `<link rel="stylesheet" href="/css/style.css">`
+Create _public_ folder, inside _css_ folder and into that **style.css** file. Include **style.css** in **main.hbs** using `<link rel="stylesheet" href="/css/style.css">`  
+add `class="container"` around the body in _main.hbs_ to align center
+
+Add HTML to layout -> _login.hbs_  
+Specify which layout route uses.  
+In _routes_ **index.js** pass in an object with `{ layout: 'login'}` as 2nd arg
+
+## Step 9
+
+### Login page
+
+Add styling in **public/css/style.css**  
+Edit **views/login.hbs** & **layout/login.hbs**

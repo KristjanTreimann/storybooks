@@ -7,8 +7,11 @@ const router = express.Router() // create router
 
 // @desc Login/Landing page
 // @route GET /
+// Specify which layout to use. Pass in layout: 'login' as 2nd perim
 router.get('/', (req, res) => {
-  res.render('login')
+  res.render('login', {
+    layout: 'login'
+  })
 })
 
 // @desc Dashboard
