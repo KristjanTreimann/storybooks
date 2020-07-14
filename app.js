@@ -1,3 +1,4 @@
+const path = require('path') // core node.js module. bring in to use path.join()
 const express = require('express') // Create basic express server
 const dotenv = require('dotenv')
 const morgan = require('morgan')
@@ -25,6 +26,9 @@ if (process.env.NODE_ENV === 'development') {
 // We're setting our view engine and can use .hbs extension
 app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', '.hbs')
+
+// Static folder
+app.use(express.static(path.join(__dirname, 'public'))) // __dirname - current directory, go to public folder
 
 // Routes
 app.use('/', require('./routes/index'))
