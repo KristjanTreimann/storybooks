@@ -59,3 +59,14 @@ To create layout add file called **main.hbs** and for login **login.hbs** inside
 Use `{{{body}}}` to output a view
 
 # Step 6
+
+Create route so we can render some views  
+New folder _routes_ -> **index.js**
+Set up top level routes  
+In _app.js_ link our routing file _// Routes_
+
+> Browser should show messages on http://localhost:3000 & http://localhost:3000/dashboard
+
+Create **dashboard.hbs** & **login.hbs** in _views_ folder
+In order to render from these files in _index.js_ replace `res.send()` with `res.render()`  
+`.render()` is going to look template or views called (whats passed ind)
