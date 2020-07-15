@@ -97,3 +97,16 @@ In _routes_ **index.js** pass in an object with `{ layout: 'login'}` as 2nd arg
 
 Add styling in **public/css/style.css**  
 Edit **views/login.hbs** & **layout/login.hbs**
+
+## Step 10
+
+Implement login with `google oauth`  
+Create API key and API secret in [Google Cloud Console](https://console.cloud.google.com)  
+Create new project -> API & Services -> ENABLE APIS AND SERVICES -> GOOGLE+ API -> ENABLE -> MANAGE -> Credentials -> Create credentials -> OAuth client ID ->
+
+1. Application type: Web Application
+2. Name: add name
+3. Authorized redirect URIs -> + ADD URI -> _here goes your callback uri_ `http://localhost:3000/auth/google/callback`  
+   once you deploy change it accordingly
+4. Create
+5. Add `Your Client ID` & `Your Client Secret` to **config.env**
