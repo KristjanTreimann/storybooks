@@ -110,3 +110,34 @@ Create new project -> API & Services -> ENABLE APIS AND SERVICES -> GOOGLE+ API 
    once you deploy change it accordingly
 4. Create
 5. Add `Your Client ID` & `Your Client Secret` to **config.env**
+
+## Step 11
+
+Authentication using [Passport.js](http://www.passportjs.org/) strategy (way to log in):  
+[Google OAuth 2.0API](http://www.passportjs.org/packages/passport-google-oauth20/)
+
+1. In _config_ create **passport.js**
+2. In **app.js** `require` passport and passport config. Add passport middleware
+3. In order to passport work with sessions, implement `express-session`.  
+   Require it in **app.js** and implement it's middleware. Has to be before passport middleware.  
+   `app.use(session({`  
+    `secret: 'whateveryouwant',`  
+    `resave: false,` (we dont want to save session if nothing is modified)  
+    `saveUninitialized: false`(dont create session until something is stored)  
+   `}))`
+4. Define auth strategy in _passport.js_  
+   bring in `passport google oauth 2.0` & `mongoose`module
+5. Create mongooose User model. Create _models_ folder with **User.js** inside. `require mongoose` and create `UserSchema` to save users to database.
+6. Include User model in _passport.js_. Catch passport and create google strategy and export it.  
+   Also add serialise and deserialise user code from www.passportjs.org/docs/
+   > Each subsequent request will not contain credentials, but rather the unique cookie that identifies the session. In order to support login sessions, Passport will serialize and deserialize user instances to and from the session.
+
+> `passport.serializeUser(function(user, done) { done(null, user.id); });`
+
+> ``passport.deserializeUser(function(id, done) {
+> User.findById(id, function(err, user) {
+
+    done(err, user);
+
+});
+});``

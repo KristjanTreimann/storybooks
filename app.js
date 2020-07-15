@@ -4,10 +4,16 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 const colors = require('colors')
 const exphbs = require('express-handlebars') // Add express handlebars
+const passport = require('passport') // Add passport module
+const session = require('express-session')
 const connectDB = require('./config/db') // Bring db conn in
 
 // Load config
 dotenv.config({ path: './config/config.env' })
+
+// Passport config
+// Pass in (passport) so we can use it in passport.js file
+require('./config/passport')(passport)
 
 // Call connectDB
 connectDB()
@@ -26,6 +32,19 @@ if (process.env.NODE_ENV === 'development') {
 // We're setting our view engine and can use .hbs extension
 app.engine('.hbs', exphbs({ defaultLayout: 'main', extname: '.hbs' }))
 app.set('view engine', '.hbs')
+
+// Sessions (Express-session middleware)
+app.use(
+  session({
+    secret: 'kristjan',
+    resave: false,
+    saveUninitialized: false
+  })
+)
+
+// Passport middleware
+app.use(passport.initialize())
+app.use(passport.session())
 
 // Static folder
 app.use(express.static(path.join(__dirname, 'public'))) // __dirname - current directory, go to public folder
