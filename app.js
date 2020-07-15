@@ -51,7 +51,10 @@ app.use(express.static(path.join(__dirname, 'public'))) // __dirname - current d
 
 // Routes
 app.use('/', require('./routes/index'))
+// ??
 app.use('/dashboard', require('./routes/index'))
+// Any link with /auth is linked to auth routes
+app.use('/auth', require('./routes/auth'))
 
 const PORT = process.env.PORT || 3000
 

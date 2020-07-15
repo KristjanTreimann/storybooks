@@ -126,18 +126,25 @@ Authentication using [Passport.js](http://www.passportjs.org/) strategy (way to 
     `saveUninitialized: false`(dont create session until something is stored)  
    `}))`
 4. Define auth strategy in _passport.js_  
-   bring in `passport google oauth 2.0` & `mongoose`module
+   bring in `passport google oauth 2.0` & `mongoose` module
 5. Create mongooose User model. Create _models_ folder with **User.js** inside. `require mongoose` and create `UserSchema` to save users to database.
 6. Include User model in _passport.js_. Catch passport and create google strategy and export it.  
    Also add serialise and deserialise user code from www.passportjs.org/docs/
    > Each subsequent request will not contain credentials, but rather the unique cookie that identifies the session. In order to support login sessions, Passport will serialize and deserialize user instances to and from the session.
 
-> `passport.serializeUser(function(user, done) { done(null, user.id); });`
+> `passport.serializeUser((user, done) => { done(null, user.id) })`
 
-> ``passport.deserializeUser(function(id, done) {
-> User.findById(id, function(err, user) {
+> `passport.deserializeUser((id, done) => { User.findById(id, (err, user) => done(err, user)) })`
 
-    done(err, user);
+## Step12
 
-});
-});``
+Set up Auth Routes
+
+1. Create **auth.js** in _routes_ folder and add auth routes.
+
+---
+
+> To authenticate we use google strategy, which we created in our **passport.js** file.
+
+2. In **app.js** bring in auth routes
+3. Test out if google log in works.
