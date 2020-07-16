@@ -149,3 +149,12 @@ Set up Auth Routes
 2. In **app.js** bring in auth routes
 3. Test out if google login works. - it hangs because we have to call a callback within our GoogleStrategy in **passport.js**
 4. Check if `console.log(profile)` in **passport.js** works in terminal
+
+## Step 13
+
+Save Google profile data
+
+1. In **passport.js** construct a newUser object. Object keys have to match with the UserSchema. Data comes from async function (`profile`)
+2. `try-catch` to store the user
+3. Try to login with google to see if saving to db works. It should redirect to dashboard if successful.
+4. Check MongoDB database if user was stored.
