@@ -132,19 +132,13 @@ Authentication using [Passport.js](http://www.passportjs.org/) strategy (way to 
    Also add serialise and deserialise user code from www.passportjs.org/docs/
    > Each subsequent request will not contain credentials, but rather the unique cookie that identifies the session. In order to support login sessions, Passport will serialize and deserialize user instances to and from the session.
 
-> `passport.serializeUser((user, done) => { done(null, user.id) })`
-
-> `passport.deserializeUser((id, done) => { User.findById(id, (err, user) => done(err, user)) })`
+> `passport.serializeUser((user, done) => { done(null, user.id) })` > `passport.deserializeUser((id, done) => { User.findById(id, (err, user) => done(err, user)) })`
 
 ## Step12
 
 Set up Auth Routes
 
-1. Create **auth.js** in _routes_ folder and add auth routes.
-
----
-
-> To authenticate we use google strategy, which we created in our **passport.js** file.
+1. Create **auth.js** in _routes_ folder and add auth routes. To authenticate we use google strategy, which we created in our **passport.js** file.
 
 2. In **app.js** bring in auth routes
 3. Test out if google login works. - it hangs because we have to call a callback within our GoogleStrategy in **passport.js**
@@ -158,3 +152,9 @@ Save Google profile data
 2. `try-catch` to store the user
 3. Try to login with google to see if saving to db works. It should redirect to dashboard if successful.
 4. Check MongoDB database if user was stored.
+
+## Step 14
+
+Logout
+
+1. Create route for logout in **auth.js**. With the passport middleware, once we log in, we'll have a logout method on the request object. We can simply call `req.logout()`. After logout redirect to homepage

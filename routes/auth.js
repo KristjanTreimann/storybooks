@@ -4,13 +4,13 @@ const passport = require('passport')
 
 // Set up Auth Routes
 
-// @desc Auth with Google
-// @route GET /auth/google
+// @desc    Auth with Google
+// @route   GET /auth/google
 // passport.authenticate('strategy', define scope:['were asking profile data')]
 router.get('/google', passport.authenticate('google', { scope: ['profile'] }))
 
-// @desc Google Auth callback
-// @route GET /auth/google/callback
+// @desc    Google Auth callback
+// @route   GET /auth/google/callback
 // passport.authenticate('strategy', failureRedirect: 'redirects to '/' which is login]
 router.get(
   '/google/callback',
@@ -22,6 +22,14 @@ router.get(
     res.redirect('/dashboard')
   }
 )
+
+// @desc    Logout user
+// @route   /auth/logout
+router.get('/logout', (req, res) => {
+  // call logout method and redirect to homepage
+  req.logout()
+  res.redirect('/')
+})
 
 // Export router
 module.exports = router
