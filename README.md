@@ -157,4 +157,17 @@ Save Google profile data
 
 Logout
 
-1. Create route for logout in **auth.js**. With the passport middleware, once we log in, we'll have a logout method on the request object. We can simply call `req.logout()`. After logout redirect to homepage
+1. Create route for logout in **auth.js**. With the passport middleware, once we log in, we'll have a logout method on the request object. We can simply call `req.logout()`. After logout redirect to homepage.
+
+## Step 15
+
+Navigation
+
+1. Create new folder _partials_ inside _views_ folder
+2. Inside _partials_ new file **\_header.hbs**. If working with partials we use \_filename because it's a partial and it's been inserted into another view.
+3. Create a navbar in **\_header.hbs** using [Materialize](https://materializecss.com/navbar.html).
+4. In _layouts_/**main.hbs** insert partial inside `body` tag using `{{> _header}}`
+5. In materialize for sliding navbar to work you have to initialize it in javascript.  
+   In **main.hbs** to the bottom of the `body` tag insert  
+    `<script> M.Sidenav.init(document.querySelector('.sidenav')) </script>`  
+    check -> https://materializecss.com/sidenav.html
