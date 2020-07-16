@@ -147,4 +147,5 @@ Set up Auth Routes
 > To authenticate we use google strategy, which we created in our **passport.js** file.
 
 2. In **app.js** bring in auth routes
-3. Test out if google log in works.
+3. Test out if google login works. - it hangs because we have to call a callback within our GoogleStrategy in **passport.js**
+4. Check if `console.log(profile)` in **passport.js** works in terminal
