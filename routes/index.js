@@ -19,7 +19,11 @@ router.get('/', ensureGuest, (req, res) => {
 // @desc Dashboard
 // @route GET /dashboard
 router.get('/dashboard', ensureAuth, (req, res) => {
-  res.render('dashboard')
+  console.log(req.user)
+  res.render('dashboard', {
+    name: req.user.firstName, // pass in username
+    image: req.user.image
+  })
 })
 
 // Export router

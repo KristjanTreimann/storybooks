@@ -185,3 +185,15 @@ Middleware is just a function that gets access to request and response objects.
 4. In _routes_/**index.js** use { destructuring } to pull in `ensureAuth` and `ensureGuest` from _middleware_/**auth.js**
 5. Whenever we want to use middleware in a route, we add it in as a 2nd argument.
    Add `ensureGuest` to Login/Landing page, because only a guest who isnt logged in should see that. Add `ensureAuth` to Dashboard so only logged in user can see the dashboard.
+
+## Step 17
+
+Store sessions to database to prevent logging out while making changes in dashboard.  
+We're using `connect-mongo` package.
+
+1. In **app.js** bring in `connect-mongo` and pass in `(session)`. `session` comes from `const session = require('express-session')`. We need to use session middleware and it has to be `required` before `connect-mongo`.
+   Also bring in `mongoose`
+2. Add `store: newMongoStore({mongooseConnection: mongoose.connection})` to session.
+3. Now it should remember the session and keeps logged in. Check MongoDB -> collection if session got stored under storybooks database.
+4. Pass in firstname from `request` and set it to `name: req.user.firstname` in _routes_/**index.js**.
+   Access it in _views_/**dashboard.js** using `{{name}}`.

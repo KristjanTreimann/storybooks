@@ -1,11 +1,13 @@
 const path = require('path') // core node.js module. bring in to use path.join()
 const express = require('express') // Create basic express server
+const mongoose = require('mongoose') // Use to store session in database
 const dotenv = require('dotenv')
 const morgan = require('morgan')
 const colors = require('colors')
 const exphbs = require('express-handlebars') // Add express handlebars
 const passport = require('passport') // Add passport module
 const session = require('express-session')
+const MongoStore = require('connect-mongo')(session) // Pass in session
 const connectDB = require('./config/db') // Bring db conn in
 
 // Load config
@@ -38,7 +40,9 @@ app.use(
   session({
     secret: 'kristjan',
     resave: false,
-    saveUninitialized: false
+    saveUninitialized: false,
+    // set store to new MongoStore({takes in an object with mongooseConnection: -> to get that : mongoose.connection(gives you the current mongoose connection)})
+    store: new MongoStore({ mongooseConnection: mongoose.connection })
   })
 )
 
