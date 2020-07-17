@@ -171,3 +171,17 @@ Navigation
    In **main.hbs** to the bottom of the `body` tag insert  
     `<script> M.Sidenav.init(document.querySelector('.sidenav')) </script>`  
     check -> https://materializecss.com/sidenav.html
+
+## Step 16
+
+Auth Middleware
+
+Disable access to route `localhost:3000/dashboard` when not logged in. Also don't show login page on `localhost:3000`.  
+Middleware is just a function that gets access to request and response objects.
+
+1. New folder _middleware_
+2. New file _middleware_/**auth.js**
+3. Check if user is authenticated using request method `isAuthenticated()`. If not redirect to homepage. If guest is authenticated redirect to dashboard.
+4. In _routes_/**index.js** use { destructuring } to pull in `ensureAuth` and `ensureGuest` from _middleware_/**auth.js**
+5. Whenever we want to use middleware in a route, we add it in as a 2nd argument.
+   Add `ensureGuest` to Login/Landing page, because only a guest who isnt logged in should see that. Add `ensureAuth` to Dashboard so only logged in user can see the dashboard.

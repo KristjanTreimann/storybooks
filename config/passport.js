@@ -19,7 +19,7 @@ module.exports = function (passport) {
       // accessToken - get stuff available to us
       // done - callback we call when were done doing we want
       async (accessToken, refreshToken, profile, done) => {
-        console.log(profile)
+        /* console.log(profile) */
         const newUser = {
           // googleId - same as in UserSchema
           googleId: profile.id,
