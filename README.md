@@ -205,3 +205,32 @@ Story Model
 Every time we're dealing with a `new resource` in our database, we need `model` for that.
 
 1. Create new file _models_/**Story.js** and add StorySchema.
+2. We need title, body, status, user and createdAt.
+
+## Step 19
+
+Dashboard Stories
+
+As we need dashboard to render user-specific stories we need to make some changes in our _routes_/**index.js**.
+
+1. Bring in Story model: `const Story = require('../models/Story')`
+2. In _@desc Dashboard_ use `try-catch` with `async-await`.
+   Set variable stories = to find from Story model, where user matches the same user who is logged in.  
+   In order to pass in data to a handlebars template and render it, loop through it and all that we need to call `lean()`. _Documents returned from queries with the `lean` option enabled are `plain javascript objects`, not MongooseDocuments._  
+   <ins>Thats what we need</ins> in order to pass it in and use it in template.
+3. Pass in `stories` to `res.render()`
+4. As we can't just pass in json object(like in React) while handling errors, we need to render `error template`.
+   1. Create new folder _views_/_error_
+   2. Create new files **500.hbs** & **404.hbs** (500 - server error, 404 - page not found)
+   3. In **index.js** under `catch` -> `res.render('error/500')`
+5. In _views/_**dashboard.hbs** loop through stories and output them in a table.  
+   Check if there is stories to loop.  
+   `{{#if stories - if stories exists}}`  
+   `{{else - else}}`  
+   `{{/if - ends if statement}}`  
+   Create table. `<thead>` - heading, `<tr>` - table row. `<th>` - table heading, `<tbody>`- table body, `<td>` - table data.  
+   To `loop` through stories -> use `{{#each}}` with ending tag `{{/each}}`
+
+---
+
+When filling table with data we dont have to use stories.\_id because when in the loop it automatically knows that we're dealing with stories so we use `{{_id}}` instead.
