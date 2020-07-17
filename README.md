@@ -197,3 +197,11 @@ We're using `connect-mongo` package.
 3. Now it should remember the session and keeps logged in. Check MongoDB -> collection if session got stored under storybooks database.
 4. Pass in firstname from `request` and set it to `name: req.user.firstname` in _routes_/**index.js**.
    Access it in _views_/**dashboard.js** using `{{name}}`.
+
+## Step 18
+
+Story Model
+
+Every time we're dealing with a `new resource` in our database, we need `model` for that.
+
+1. Create new file _models_/**Story.js** and add StorySchema.

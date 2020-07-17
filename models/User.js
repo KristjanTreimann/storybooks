@@ -1,6 +1,6 @@
 const mongoose = require('mongoose')
 
-// In Schem(pass in an object with the fields you want for user)
+// In Schema(pass in an object with the fields you want for user)
 // As we are getting some fields back when authenticating with google
 // One of them is ID, wich is separate from the mongoDB gives you by the default
 const UserSchema = new mongoose.Schema({
