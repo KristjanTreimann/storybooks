@@ -54,11 +54,12 @@ app.use(passport.session())
 app.use(express.static(path.join(__dirname, 'public'))) // __dirname - current directory, go to public folder
 
 // Routes
+
 app.use('/', require('./routes/index'))
-// ??
-app.use('/dashboard', require('./routes/index'))
 // Any link with /auth is linked to auth routes
 app.use('/auth', require('./routes/auth'))
+// Any link with /stories is linked to stories routes
+app.use('/stories', require('./routes/stories'))
 
 const PORT = process.env.PORT || 3000
 

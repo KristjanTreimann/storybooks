@@ -234,3 +234,26 @@ As we need dashboard to render user-specific stories we need to make some change
 ---
 
 When filling table with data we dont have to use stories.\_id because when in the loop it automatically knows that we're dealing with stories so we use `{{_id}}` instead.
+
+## Step 20
+
+Add Story button
+
+1. Create new file in _partials_/**\_add_btn.hbs**. (Button will be a partial)
+2. Create new btn with link to `href="/stories/add"` and add icon from FontAwesome using classes.
+3. Insert it in _layouts_/**main.hbs** using `{{> _add_btn}}`
+
+Add Story
+
+1. As we need new view for viewStories then create new folder _stories_ inside _views_ with new file **add.hbs** inside -> _views/stories_/**add.hbs**
+2. Inside **add.hbs** create new form.
+   1. It has to make a POST request to /stories -> `action="/stories" method="POST"`
+   2. Has a Title with a `name="title"` and `id="title"`
+   3. select field with options `value="public"` and `value="private"`. Make "public" selected by default.
+   4. We have a body with `textarea` where we implement CKEDITOR.
+   5. We have a Save button
+   6. We have a Cancel button what takes us to `/dashboard`
+   7. Create a route to show **add.hbs**. We need stories route file now. Create new file **stories.js** inside _routes_ folder.
+   8. Copy from base from **index.js**. We dont need to keep ensureGuest because only login or home needs it. Make changes to get and render add view.
+   9. In order to use the file bring in the route to **app.js**. `app.use('/stories', require('./routes/stories'))` -> means that in **stories.js** you can define `router.get('/add')` and it gets treated like `localhost:3000/stories/add`
+   10. When using Materialize form `select` in **add.hbs** you have to initalize it with javascript. In _layouts_/**main.hbs** add `M.FormSelect.init(document.querySelector('#status'))` to the end of the body tag. `#status` comes from **add.hbs** form.
