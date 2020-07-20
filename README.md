@@ -35,7 +35,7 @@ add start and dev script to _package.json_ .
 
 ## Step 3
 
-Initialize app in _app.js_. Add enviromental variables to config.env. When copying MONGO_URI replace <dbname> with the name you want for database. It gets created automatically.
+Initialize app in _app.js_. Add enviromental variables to config.env. When copying MONGO*URI replace <\_dbname*> with the name you want for database. It gets created automatically.
 
 ## Step 4
 
@@ -170,7 +170,7 @@ Navigation
 5. In materialize for sliding navbar to work you have to initialize it in javascript.  
    In **main.hbs** to the bottom of the `body` tag insert  
     `<script> M.Sidenav.init(document.querySelector('.sidenav')) </script>`  
-    check -> https://materializecss.com/sidenav.html
+    check -> <https://materializecss.com/sidenav.html>
 
 ## Step 16
 
@@ -217,7 +217,7 @@ As we need dashboard to render user-specific stories we need to make some change
 2. In _@desc Dashboard_ use `try-catch` with `async-await`.
    Set variable stories = to find from Story model, where user matches the same user who is logged in.  
    In order to pass in data to a handlebars template and render it, loop through it and all that we need to call `lean()`. _Documents returned from queries with the `lean` option enabled are `plain javascript objects`, not MongooseDocuments._  
-   <ins>Thats what we need</ins> in order to pass it in and use it in template.
+   **Thats what we need** in order to pass it in and use it in template.
 3. Pass in `stories` to `res.render()`
 4. As we can't just pass in json object(like in React) while handling errors, we need to render `error template`.
    1. Create new folder _views_/_error_
@@ -239,7 +239,7 @@ When filling table with data we dont have to use stories.\_id because when in th
 
 Add Story button
 
-1. Create new file in _partials_/**\_add_btn.hbs**. (Button will be a partial)
+1. Create new file in _partials_/**\_add_btn.hbs** (Button will be a partial)
 2. Create new btn with link to `href="/stories/add"` and add icon from FontAwesome using classes.
 3. Insert it in _layouts_/**main.hbs** using `{{> _add_btn}}`
 
@@ -257,3 +257,19 @@ Add Story
    8. Copy from base from **index.js**. We dont need to keep ensureGuest because only login or home needs it. Make changes to get and render add view.
    9. In order to use the file bring in the route to **app.js**. `app.use('/stories', require('./routes/stories'))` -> means that in **stories.js** you can define `router.get('/add')` and it gets treated like `localhost:3000/stories/add`
    10. When using Materialize form `select` in **add.hbs** you have to initalize it with javascript. In _layouts_/**main.hbs** add `M.FormSelect.init(document.querySelector('#status'))` to the end of the body tag. `#status` comes from **add.hbs** form.
+
+## Step 21
+
+Replace textarea with [CKEDITOR](https://cdnjs.com/libraries/ckeditor).
+
+1. Add  
+   `<script src="https://cdnjs.cloudflare.com/ajax/libs/ckeditor/4.14.1/ckeditor.js" integrity="sha512-P4rrEImABBYtBFdmrFPqF8rjh8iiRiupfQ4KLrBCL8dAivLiM2nh+1bJQeMb2ZglmIlGZdfTtgGdXH6H/hGVeg==" crossorigin="anonymous"></script>` to **main.hbs** below _materialize_ script.
+   Initialize with `CKEDITOR.replace('name of a field we want to replace')`- comes from textarea `name="body"`).
+2. `plugins: 'wysiwygarea'` whatyouseeiswhatyouget  
+   `link` - to use links in editor
+3. As saving text is making POST request to /stories, we need to create new route to that in **stories.js**
+4. In express request.body gives us the data what was sent in form. However in order to use req.body we need to add a piece of middleware.
+5. Add body parser middleware to _app.js_. To accept form data we use`app.use(express.urlencoded( extended: false ))`.
+   Now we should be able to get the data from `req.body`. It doesnt include user, only data we receive from the form. You can add **user** data to `req.body` with creating new variable req.body.user = req.user (request gives as user).
+   Use async await because of dealing with mongoose model schema. Call create on Story to create and pass in data from req.body. After that redirect to Dashboard
+6. Saving stories should work and they should be visible in dashboard and in MongoDB database. Check if logging in with another google account shows you empty dashboard

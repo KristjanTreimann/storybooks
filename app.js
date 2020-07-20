@@ -23,6 +23,11 @@ connectDB()
 // Initialize app
 const app = express()
 
+// Body parser
+app.use(express.urlencoded({ extended: false }))
+// accept JSON data
+app.use(express.json())
+
 // Logging
 // Use morgan in development mode
 if (process.env.NODE_ENV === 'development') {
