@@ -302,3 +302,10 @@ Create view for public stories (http://localhost:3000/stories)
    Add `.card-action center-align` class for read more button with link to new page containing the current story. Use `{{_id}}` of the story.
 5. Create a GET request to /stories inside _routes_/**stories.js** to show all public stories. Fetch the public stories in and render them in a template. Use `.populate()` to add on **user** data from user model. `.sort({})` by created at descending. Add `.lean()` to pass it in to our template! Use `res.render('stories/index', {stories})` to render correct view and pass in stories.
 6. All the public stories should now be visible in our route (localhost:3000/stories)
+
+## Step 24
+
+Truncate & Strip Tags Helpers
+
+1. Add helpers functions to **hbs.js**. `Truncate` function takes in a string and length of how long we want this to be in characters. It then cuts this to given size while taking into account whole words. It then adds ... to the very end and returns a result. `Striptags` function takes in an input and then uses `.replace()` and regular expressions to replace any html tags with empty string/nothing.
+2. Include helpers in _stories_/**index.js** and in **app.js**. To wrap `{{body}}` to both of these tags use parenthesis like this `{{ stripTags (truncate body 100) }}`. 100 -> length for truncate
