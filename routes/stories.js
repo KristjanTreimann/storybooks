@@ -37,5 +37,23 @@ router.post('/', ensureAuth, async (req, res) => {
   }
 })
 
+// @desc Show all stories
+// @route GET /stories
+// @param ensureAuth - comes from middleware
+// We dont have to use router.get('/stories'), because in app.js where we link all our routes, we already have /stories
+router.get('/', ensureAuth, async (req, res) => {
+  try {
+    const stories = await Story.find({ status: 'public' }) // get all public stories
+      .populate('user') // add user data to it
+      .sort({ createdAt: 'desc' })
+      .lean()
+
+    res.render('stories/index', { stories }) // render index template from stories folder and pass in stories object
+  } catch (err) {
+    console.error(err)
+    res.render('error/500')
+  }
+})
+
 // Export router
 module.exports = router

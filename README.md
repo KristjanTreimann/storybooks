@@ -285,3 +285,20 @@ We want helper to wrap around the date and format it
 4. In order to use this in our template we need to register it with handlebars- In **app.js** right above `// Handlebars` bring it in. Use destructuring because we have multiple functions in helpers. `const { formatDate } = require('helpers/hbs')`.
    Add it to `exphbs` object. Add `helpers: {formatDate}`.
 5. You can now use it in **dashboard.hbs** with `<td>{{formatDate createdAt 'pass the format what you want'}}</td>`. Check [Moment.js docs]
+
+## Step 23
+
+Create view for public stories (http://localhost:3000/stories)
+
+1. New view -> _stories_/**index.hbs**
+2. We want to loop through the stories, because when we create the route we're going to render this template and pass the stories in.
+3. Create `{{#each stories}}` and inside we can use only `{{else}}` without using `if`
+4. We use `cards` to display stories. We create 3 4-columns divs. And for each one we render a `card`.  
+   We use class `.card-image` and inside we put an icon to show if it belongs to an user currently logged in. We use handlebar helper editIcon for this.  
+   We use `.card-content` along with `.center-align`.  
+   For title we render `{{title}}` which is same as `stories.title` and we put `{{body}}` which is story text inside a paragaph. Because of the story length we use another helper.  
+   Also we want to strip `<p>` tags coming from rendering `{{body}}`.  
+   After paragraph we use line brake and `.chip` class from _Materialize_ [Chips](https://materializecss.com/chips.html). Inside chip we put user image and name. Image comes from `stories.user.image`. We also add link to user what shows all the specific stories of the user. Beside the link we show the user display name.  
+   Add `.card-action center-align` class for read more button with link to new page containing the current story. Use `{{_id}}` of the story.
+5. Create a GET request to /stories inside _routes_/**stories.js** to show all public stories. Fetch the public stories in and render them in a template. Use `.populate()` to add on **user** data from user model. `.sort({})` by created at descending. Add `.lean()` to pass it in to our template! Use `res.render('stories/index', {stories})` to render correct view and pass in stories.
+6. All the public stories should now be visible in our route (localhost:3000/stories)
