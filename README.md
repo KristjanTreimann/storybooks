@@ -273,3 +273,15 @@ Replace textarea with [CKEDITOR](https://cdnjs.com/libraries/ckeditor).
    Now we should be able to get the data from `req.body`. It doesnt include user, only data we receive from the form. You can add **user** data to `req.body` with creating new variable req.body.user = req.user (request gives as user).
    Use async await because of dealing with mongoose model schema. Call create on Story to create and pass in data from req.body. After that redirect to Dashboard
 6. Saving stories should work and they should be visible in dashboard and in MongoDB database. Check if logging in with another google account shows you empty dashboard
+
+## Step 22
+
+Format the date using handlebar helper
+We want helper to wrap around the date and format it
+
+1. New folder _/root/\_helpers_
+2. New file _helpers_/**hbs.js**
+3. Bring in `momentjs` and create a function that takes in date and format and formats it with moment(date).format(format)
+4. In order to use this in our template we need to register it with handlebars- In **app.js** right above `// Handlebars` bring it in. Use destructuring because we have multiple functions in helpers. `const { formatDate } = require('helpers/hbs')`.
+   Add it to `exphbs` object. Add `helpers: {formatDate}`.
+5. You can now use it in **dashboard.hbs** with `<td>{{formatDate createdAt 'pass the format what you want'}}</td>`. Check [Moment.js docs]
