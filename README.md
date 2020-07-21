@@ -360,3 +360,14 @@ As we cant just change our edit form method to PUT or DELETE, it needs to be GET
 5. We need to handle this PUT request this form is going to make so we need to make a route to process this edit form in _routes_/**stories.js**
    Use `router.put()` method. Use `let` story because we want to reassign it. First we find the story by its id. Then we check it the story exists and if the story owner is the same as logged in user. If it is the same user then we reassign story using mongoose `findOneAndUpdate()` method, where we want to find by \_id: what we get from req.params.id. Then the second argument after the object ise `req.body` because thats the data we want to replace it with. As a third argument we add some options. `new: true` -> creates a new one if it doesnt exists, `runValidators: true` -> makes sure that mongoose fields are valid. After that redirect to the dashboard.
 6. If you try to edit story it gives cannot PUT error. In **edit.hbs** you have to change form action to `action="/stories/{{story._id}}`" because in **stories.js** route PUT request needs to have `/:id`
+
+## Step 28
+
+Delete story
+
+1. In the dashboard we want the edit icon and delete icon. Delete icon will be a button that uses method override to delete. In **dashboard.hbs** add edit icon and delete icon.  
+   Delete icon will be in a form with action linking to specific story. We're using hidden input with `type="hidden" name="_method value="DELETE"` for method-override. We add a button with type submit, because we're submitting a form. Inside button we put trash icon.
+2. For delete and edit icons to be side by side we add custom style to **style.css** `.btn-float { float: left; margin-right: 10px; }`
+3. In _routes_/**stories.js** create a delete route. Use try-catch with `remove()` mongoose method. Remove the story with \_id that matches the story we're handling req-params.id.
+4. Also wrap previous Show edit page and Update story to try-catch.
+5. Delete story should work now.

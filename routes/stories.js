@@ -58,49 +58,71 @@ router.get('/', ensureAuth, async (req, res) => {
 // @desc Show edit page
 // @route GET /stories/edit/:id
 router.get('/edit/:id', ensureAuth, async (req, res) => {
-  const story = await Story.findOne({
-    _id: req.params.id // get it by _id and match it to req.params.id
-  }).lean() // .lean() to pass this into template
+  try {
+    const story = await Story.findOne({
+      _id: req.params.id // get it by _id and match it to req.params.id
+    }).lean() // .lean() to pass this into template
 
-  // Check if story is there
-  if (!story) {
-    return res.render('error/404')
-  }
+    // Check if story is there
+    if (!story) {
+      return res.render('error/404')
+    }
 
-  // Redirect if not the story owner
-  if (story.user != req.user.id) {
-    // req.user.id -> logged in user
-    res.redirect('/stories')
-  } else {
-    res.render('stories/edit', {
-      story // pass in story
-    })
+    // Redirect if not the story owner
+    if (story.user != req.user.id) {
+      // req.user.id -> logged in user
+      res.redirect('/stories')
+    } else {
+      res.render('stories/edit', {
+        story // pass in story
+      })
+    }
+  } catch (err) {
+    console.error(err)
+    return res.render('error/500')
   }
 })
 
 // @desc Update story
 // @route PUT /stories/:id
 router.put('/:id', ensureAuth, async (req, res) => {
-  // check if story exists
-  // use let to replace the story
-  let story = await Story.findById(req.params.id).lean() // pass in id from url
+  try {
+    // check if story exists
+    // use let to replace the story
+    let story = await Story.findById(req.params.id).lean() // pass in id from url
 
-  if (!story) {
-    return res.render('error/404')
+    if (!story) {
+      return res.render('error/404')
+    }
+
+    // Redirect if not the story owner
+    if (story.user != req.user.id) {
+      // req.user.id -> logged in user
+      res.redirect('/stories')
+    } else {
+      // update story -> reassign to
+      story = await Story.findOneAndUpdate({ _id: req.params.id }, req.body, {
+        new: true, //
+        runValidators: true
+      })
+
+      res.redirect('/dashboard')
+    }
+  } catch (err) {
+    console.error(err)
+    return res.render('/error/500')
   }
+})
 
-  // Redirect if not the story owner
-  if (story.user != req.user.id) {
-    // req.user.id -> logged in user
-    res.redirect('/stories')
-  } else {
-    // update story -> reassign to
-    story = await Story.findOneAndUpdate({ _id: req.params.id }, req.body, {
-      new: true, //
-      runValidators: true
-    })
-
+// @desc Delete story
+// @route DELETE /stories/:id
+router.delete('/:id', ensureAuth, async (req, res) => {
+  try {
+    await Story.remove({ _id: req.params.id })
     res.redirect('/dashboard')
+  } catch (err) {
+    console.error(err)
+    return res.render('/error/500')
   }
 })
 
