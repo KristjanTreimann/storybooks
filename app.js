@@ -5,6 +5,7 @@ const dotenv = require('dotenv')
 const morgan = require('morgan')
 const colors = require('colors')
 const exphbs = require('express-handlebars') // Add express handlebars
+const methodOverride = require('method-override') // to make PUT and DELETE to db
 const passport = require('passport') // Add passport module
 const session = require('express-session')
 const MongoStore = require('connect-mongo')(session) // Pass in session
@@ -27,6 +28,18 @@ const app = express()
 app.use(express.urlencoded({ extended: false }))
 // accept JSON data
 app.use(express.json())
+
+// Method override
+app.use(
+  methodOverride(function (req, res) {
+    if (req.body && typeof req.body === 'object' && '_method' in req.body) {
+      // look in urlencoded POST bodies and delete it
+      let method = req.body._method
+      delete req.body._method
+      return method
+    }
+  })
+)
 
 // Logging
 // Use morgan in development mode

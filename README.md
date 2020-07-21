@@ -288,7 +288,7 @@ We want helper to wrap around the date and format it
 
 ## Step 23
 
-Create view for public stories (http://localhost:3000/stories)
+Create view for public stories (<http://localhost:3000/stories>)
 
 1. New view -> _stories_/**index.hbs**
 2. We want to loop through the stories, because when we create the route we're going to render this template and pass the stories in.
@@ -335,3 +335,28 @@ Edit Story
 4. For body text add `{{story.body}}` to textarea.
 5. For the select option we have to wrap options to #select and pass in story.status argument `{{#select story.status}}`. Create new `select` helper in **hbs.js**. Function takes in whatever the selected option is, and the options themselves that we wrapped and it sets selected depending what gets passed in from story.status. It uses regular expressions to do that.
 6. Register `select` helper in **app.js**
+
+## Step 27
+
+Method Override for Put Requests
+
+Edit Story form should make a `PUT` request. We have to use method ovverride.
+As we cant just change our edit form method to PUT or DELETE, it needs to be GET or POST, thats when method override package comes in.
+
+1. Bring in `method-override` in **app.js**. Visit method-override [documentation](npmjs.com/package/method-override) for more information.
+2. The way this is going to work is -> in our form we'll have standard method="POST". With that override method we should be able to add a hidden input with the method we actually want to use which is going to be PUT and DELETE in this case.
+3. This piece of middleware should allow us to do that:  
+   app.use(methodOverride(function (req, res) {  
+   if (req.body && typeof req.body === 'object' && '\_method' in req.body) {  
+    // look in urlencoded POST bodies and delete it  
+    let method = req.body.\_method  
+    delete req.body.\_method  
+    return method  
+    }  
+    }))  
+    Add it in **app.js**
+4. In **edit.hbs** as method override deletes form method="POST" and replaces it the one we put as a hidden input.  
+   We need to add new input with `type="hidden" name="_method" value="PUT"` value -> value we want this to be.
+5. We need to handle this PUT request this form is going to make so we need to make a route to process this edit form in _routes_/**stories.js**
+   Use `router.put()` method. Use `let` story because we want to reassign it. First we find the story by its id. Then we check it the story exists and if the story owner is the same as logged in user. If it is the same user then we reassign story using mongoose `findOneAndUpdate()` method, where we want to find by \_id: what we get from req.params.id. Then the second argument after the object ise `req.body` because thats the data we want to replace it with. As a third argument we add some options. `new: true` -> creates a new one if it doesnt exists, `runValidators: true` -> makes sure that mongoose fields are valid. After that redirect to the dashboard.
+6. If you try to edit story it gives cannot PUT error. In **edit.hbs** you have to change form action to `action="/stories/{{story._id}}`" because in **stories.js** route PUT request needs to have `/:id`
