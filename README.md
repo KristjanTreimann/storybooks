@@ -309,3 +309,18 @@ Truncate & Strip Tags Helpers
 
 1. Add helpers functions to **hbs.js**. `Truncate` function takes in a string and length of how long we want this to be in characters. It then cuts this to given size while taking into account whole words. It then adds ... to the very end and returns a result. `Striptags` function takes in an input and then uses `.replace()` and regular expressions to replace any html tags with empty string/nothing.
 2. Include helpers in _stories_/**index.js** and in **app.js**. To wrap `{{body}}` to both of these tags use parenthesis like this `{{ stripTags (truncate body 100) }}`. 100 -> length for truncate
+
+## Step 25
+
+Edit Icon Helper
+
+1. New editIcon helper to **hbs.js**. Function that takes in storyUser - it needs to know which particular user story it is, we need to know which user is logged in and looking at the stories, we need to know the story id and floating is that we can have this edit icon somewhere else. Set to true by default. We use floating button only when viewing all stories. We're checking if story id is equal to the one whos logged in so only owner of the story can change it. If it is we check if it's a floating icon and link takes us to the edit page with a particular id. If the logged in user is not the author of the story we're not going to see the icon.
+2. Bring in and register `editIcon` helper in **app.js**
+3. Add it also to _stories_/**index.hbs**.  
+   `{{{editIcon user user _id}}}` - {{{editIcon stories.user outtheloop.user stories._id}}} because editIcon takes in `storyUser, loggedUser, storyId, floating`. To get `loggedUser` `../user` -> go out from the loop and get the current user. `floating` is set to true so we dont have to add it. Use **triple {{{ }}}** in order to `parse html` from the editIcon helper.
+4. It gives TypeError: Cannot read property '\_id' of undefined, what means that we dont have access to this global user -> `../user`. We have access to our req.user with in our routes but in our template id doesnt know what user is. It knows only the `user` because its in the loop. To fix it: go to **app.js** and set a express global variable. We have to set it as middleware `app.use()` pass in a middleware function which has access to request and response object of the cycle and next which we need to call after we're done. Set a global variable by res.locals.user = set that to req.user or null if it doesnt exist. Doing this should allow us access to user in our template. Then call next().  
+   `app.use(function(req, res, next) {`  
+   `res.locals.user = req.user || null`  
+   `next()`  
+   `})`
+5. Add `.fa-small { font-size: 16px !important }` to **style.css** to make editIcon smaller.
