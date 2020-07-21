@@ -145,5 +145,31 @@ router.delete('/:id', ensureAuth, async (req, res) => {
   }
 })
 
+// @desc user stories
+// @route GET /stories/user/:userId
+// @param ensureAuth - comes from middleware
+router.get('/user/:userId', ensureAuth, async (req, res) => {
+  try {
+    // fetch stories
+    const stories = await Story.find({
+      // get only where the user is equal to req.params.userId
+      user: req.params.userId,
+      // only public stories
+      status: 'public'
+    })
+      .populate('user')
+      .lean()
+
+    // render all stories template with only stories belonging to specific user
+    // pass in the stories
+    res.render('stories/index', {
+      stories
+    })
+  } catch (err) {
+    console.error(err)
+    res.render('error/500')
+  }
+})
+
 // Export router
 module.exports = router

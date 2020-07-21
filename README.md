@@ -380,3 +380,10 @@ Single Story Page
 2. Create a new file for a template(view) `show` in _stories_/**show.hbs**. In `<small> {{{user doesnt have to be in ../user because its not in loop and we have a global user defined in **app.js** under // Set Global Variable. false - for the floating }}} </small>`. `story.body` is wrapped in **{{{ }}}** because we want to parse the html.
 3. For the image add custom css to class `.img-small`. In **style.css** add `.img-small { width: 180px; }`
 4. We also want to create a route to show all the specific user stories. `<a href="/stories/user/{{story.user._id}}"> More From {{story.user.firstName}}</a>`
+
+## Step 30
+
+User Stories
+
+1. Create new route for user stories in _routes_/**stories.hbs**
+2. We want to render the _stories_/**index.hbs** so its the same template the public stories use altough it only shows the stories thst belongs to the user thats in the url. Render the **index.hbs** template and pass in stories object. Stories has already filtered out by id belonging to chosen user.
