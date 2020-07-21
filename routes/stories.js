@@ -55,5 +55,28 @@ router.get('/', ensureAuth, async (req, res) => {
   }
 })
 
+// @desc Show edit page
+// @route GET /stories/edit/:id
+router.get('/edit/:id', ensureAuth, async (req, res) => {
+  const story = await Story.findOne({
+    _id: req.params.id // get it by _id and match it to req.params.id
+  }).lean() // .lean() to pass this into template
+
+  // Check if story is there
+  if (!story) {
+    return res.render('error/404')
+  }
+
+  // Redirect if not the story owner
+  if (story.user != req.user.id) {
+    // req.user.id -> logged in user
+    res.redirect('/stories')
+  } else {
+    res.render('stories/edit', {
+      story // pass in story
+    })
+  }
+})
+
 // Export router
 module.exports = router

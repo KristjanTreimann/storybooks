@@ -324,3 +324,14 @@ Edit Icon Helper
    `next()`  
    `})`
 5. Add `.fa-small { font-size: 16px !important }` to **style.css** to make editIcon smaller.
+
+## Step 26
+
+Edit Story
+
+1. In **stories.js** create a route to show the edit page. Pass in particular story to the edit page. @route should be GET request to /stories/edit/:id (:id - id of the story we want to edit).
+2. Create stories edit page view in _views/stories_ **edit.hbs** and copy everything from **add.hbs**
+3. Add `value="{{story.title}}` to input to show title passed in.
+4. For body text add `{{story.body}}` to textarea.
+5. For the select option we have to wrap options to #select and pass in story.status argument `{{#select story.status}}`. Create new `select` helper in **hbs.js**. Function takes in whatever the selected option is, and the options themselves that we wrapped and it sets selected depending what gets passed in from story.status. It uses regular expressions to do that.
+6. Register `select` helper in **app.js**
