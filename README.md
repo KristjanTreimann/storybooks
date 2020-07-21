@@ -371,3 +371,12 @@ Delete story
 3. In _routes_/**stories.js** create a delete route. Use try-catch with `remove()` mongoose method. Remove the story with \_id that matches the story we're handling req-params.id.
 4. Also wrap previous Show edit page and Update story to try-catch.
 5. Delete story should work now.
+
+## Step 29
+
+Single Story Page
+
+1. New route in _routes_/**stories.js**. It's going to be GET request to /stories/:id. We need to fetch the story from database. Use `.findById()` method and pass in id from req.params.id. Also populate it with user data and use lean to use it in template. Check if story exists, if it doesn't render 404 error page. If story exists render template show and pass in an object with the story we fetched from database so we can display the data.
+2. Create a new file for a template(view) `show` in _stories_/**show.hbs**. In `<small> {{{user doesnt have to be in ../user because its not in loop and we have a global user defined in **app.js** under // Set Global Variable. false - for the floating }}} </small>`. `story.body` is wrapped in **{{{ }}}** because we want to parse the html.
+3. For the image add custom css to class `.img-small`. In **style.css** add `.img-small { width: 180px; }`
+4. We also want to create a route to show all the specific user stories. `<a href="/stories/user/{{story.user._id}}"> More From {{story.user.firstName}}</a>`
